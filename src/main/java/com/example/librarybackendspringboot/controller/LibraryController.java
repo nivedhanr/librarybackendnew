@@ -1,7 +1,10 @@
 package com.example.librarybackendspringboot.controller;
 
 import com.example.librarybackendspringboot.dao.LibraryDao;
+import com.example.librarybackendspringboot.dao.UserregisterationDao;
 import com.example.librarybackendspringboot.model.Library;
+import com.example.librarybackendspringboot.model.Userregisteration;
+import jakarta.servlet.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +17,7 @@ public class LibraryController {
 
     @Autowired
     private LibraryDao dao;
+    private UserregisterationDao dao1;
     @CrossOrigin(origins = "*")
     @PostMapping(path="/add",consumes = "application/json",produces = "application/json")
     public Map<String,String> Addbook(@RequestBody Library l){
@@ -44,5 +48,31 @@ public class LibraryController {
         System.out.println(title);
         return (List<Library>) dao.Searchbook((l.getTitle()));
     }
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/delete",consumes = "application/json",produces = "application/json")
+    public HashMap<String,String> deleteBook(@RequestBody Library l)
+    {
+        String id=String.valueOf((l.getId()));
+        System.out.println(id);
+        dao.deleteBook((l.getId()));
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/userlogin", consumes = "application/json", produces = "application/json")
+    public List<Userregisteration> UserLogin(@RequestBody Userregisteration r) {
+
+        return (List<Userregisteration>) dao1.userLogin(r.getUsername(),r.getPassword());
+
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/userreg", consumes = "application/json", produces = "application/json")
+    public List<Userregisteration> UserReg(@RequestBody Userregisteration u){
+        return (List<Userregisteration>) dao1.userReg(u.getPassword(),u.getConfirmpass());
+    }
+
 
 }
