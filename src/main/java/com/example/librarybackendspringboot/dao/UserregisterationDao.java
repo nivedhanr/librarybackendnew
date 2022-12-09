@@ -12,12 +12,14 @@ import java.util.List;
 
 public interface UserregisterationDao extends CrudRepository<Userregisteration,Integer> {
 
-
-    @Query(value = "SELECT `id`, `aadhar`, `address`, `confirmpass`, `dob`, `email`, `name`, `password`, `phoneno`, `pin`, `username` FROM `registeration` WHERE `username`=:username AND `password`=:password",nativeQuery = true)
-    List<Userregisteration> userLogin(@Param("username") String username, @Param("password") String password);
-
-    @Query(value = "SELECT `id`, `aadhar`, `address`, `confirmpass`, `dob`, `email`, `name`, `password`, `phoneno`, `pin`, `username` FROM `registeration` WHERE `password` == `confirmpass`",nativeQuery = true)
-    List<Userregisteration> userReg(@Param("password") String password, @Param("confirmpass") String confirmpass);
+    @Modifying
+    @Transactional
+    @Query(value = "SELECT `id`, `aadhar`, `address`, `confirmpass`, `dob`, `email`, `name`, `password`, `phoneno`, `pin`, `username` FROM `userregisteration` WHERE `email`=:email AND `password`=:password",nativeQuery = true)
+    List<Userregisteration> userLogin(@Param("email") String email, @Param("password") String password);
+//    @Modifying
+//    @Transactional
+//    @Query(value = "SELECT `id`, `aadhar`, `address`, `confirmpass`, `dob`, `email`, `name`, `password`, `phoneno`, `pin`, `username` FROM `userregisteration` WHERE `password` = `confirmpass`",nativeQuery = true)
+//    List<Userregisteration> userReg(@Param("password") String password, @Param("confirmpass") String confirmpass);
 }
 
 

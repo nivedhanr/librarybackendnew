@@ -17,6 +17,7 @@ public class LibraryController {
 
     @Autowired
     private LibraryDao dao;
+    @Autowired
     private UserregisterationDao dao1;
     @CrossOrigin(origins = "*")
     @PostMapping(path="/add",consumes = "application/json",produces = "application/json")
@@ -50,29 +51,48 @@ public class LibraryController {
     }
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/delete",consumes = "application/json",produces = "application/json")
-    public HashMap<String,String> deleteBook(@RequestBody Library l)
+    public HashMap<String,String> deleteBook(@RequestBody Library d)
     {
-        String id=String.valueOf((l.getId()));
+        String id=String.valueOf((d.getId()));
         System.out.println(id);
-        dao.deleteBook((l.getId()));
+        dao.deleteBook((d.getId()));
         HashMap<String,String> map=new HashMap<>();
         map.put("status","success");
         return map;
     }
 
+
+    @CrossOrigin(origins = "*")
+    @PostMapping(path="/userreg",consumes = "application/json",produces = "application/json")
+    public Map<String,String> Userreg(@RequestBody Userregisteration a){
+        System.out.println(a.getName().toString());
+        System.out.println(a.getAadhar().toString());
+        System.out.println(a.getAddress().toString());
+        System.out.println(a.getPin().toString());
+        System.out.println(a.getDob().toString());
+        System.out.println(a.getEmail().toString());
+        System.out.println(a.getPhoneno().toString());
+        System.out.println(a.getUsername().toString());
+        System.out.println(a.getPassword().toString());
+        System.out.println(a.getConfirmpass().toString());
+        dao1.save(a);
+        HashMap<String,String> map=new HashMap<>();
+        map.put("status","success");
+        return map;
+    }
     @CrossOrigin(origins = "*")
     @PostMapping(path = "/userlogin", consumes = "application/json", produces = "application/json")
     public List<Userregisteration> UserLogin(@RequestBody Userregisteration r) {
 
-        return (List<Userregisteration>) dao1.userLogin(r.getUsername(),r.getPassword());
+        return (List<Userregisteration>) dao1.userLogin(r.getEmail(),r.getPassword());
 
     }
 
-    @CrossOrigin(origins = "*")
-    @PostMapping(path = "/userreg", consumes = "application/json", produces = "application/json")
-    public List<Userregisteration> UserReg(@RequestBody Userregisteration u){
-        return (List<Userregisteration>) dao1.userReg(u.getPassword(),u.getConfirmpass());
-    }
+//    @CrossOrigin(origins = "*")
+//    @PostMapping(path = "/userreg", consumes = "application/json", produces = "application/json")
+//    public List<Userregisteration> userReg(@RequestBody Userregisteration u){
+//        return (List<Userregisteration>) dao1.usreReg(u.getPassword(),u.getConfirmpass());
+//    }
 
 
 }

@@ -16,6 +16,6 @@ public interface LibraryDao extends CrudRepository<Library,Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "DELETE FROM `library` WHERE id=:id",nativeQuery = true)
-    List<Library> deleteBook(@Param("id") Integer id);
+    @Query(value = "DELETE FROM `library` WHERE `id`=:id",nativeQuery = true)
+    void deleteBook(@Param("id") Integer id);
 }
